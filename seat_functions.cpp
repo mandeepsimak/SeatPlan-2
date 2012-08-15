@@ -59,11 +59,11 @@ void seat_planner :: set_room()	// Setting room deatils
 	{
 		row = rows[nxt_room];	// Rows of room
 		col = cols[nxt_room];	// Columns of room
-		room = room_no[nxt_room];	// Room name		
+		exam_room = room_no[nxt_room];	// Room name		
 		nxt_room++;	// Next room
 	}
 }
-
+/*
 void seat_planner :: set_branch()	// set_branch of seat_planner
 {
 	if(nxt_branch==0)	// Sets start and end roll nos of two branches.
@@ -106,10 +106,69 @@ void seat_planner :: set_rollno()
 	}
 
 }
+*/
+void seat_planner :: seatAB()
+{
+	if(nxt_branch == 0)
+	{
+		for(i=0; i<total_rno[nxt_branch]; i++)
+		{
+			seatA[i] = rollno[nxt_branch][i];
+		}
+		totalA = total_rno[nxt_branch];
+		nxt_branch++;
+		for(i=0; i<total_rno[nxt_branch]; i++)
+		{
+			seatB[i] = rollno[nxt_branch][i];
+		}
+		totalB = total_rno[nxt_branch];
+		nxt_branch++;
+	}
+	
+	else if(nxt_branch < total_branches)
+	{
+		if(m >= totalA)
+		{
+			for(i=0; i<total_rno[nxt_branch]; i++)
+			{
+				seatA[i] = rollno[nxt_branch][i];
+			}
+			totalA = total_rno[nxt_branch];
+			m=0;
+			nxt_branch++;
+		}
+		
+		if(n >= totalB)
+		{
+			for(i=0; i<total_rno[nxt_branch]; i++)
+			{
+				seatB[i] = rollno[nxt_branch][i];
+			}
+			totalB = total_rno[nxt_branch];
+			n=0;
+			nxt_branch++;
+		}
+	}
+	else //if(nxt_branch >= total_branches)
+	{
+		if(m >= totalA)
+		{
+			m=0;totalA=0;
+			seatA[m] = 0;
+		}
+		if(n >= totalB)
+		{
+			n=0;totalB=0;
+			seatB[n] = 0;
+		}
+	}
+}
 
 void seat_planner :: seat_plan()	// Allocate seats
 {
-	set_branch();	// Calling set_branch() 
+	//set_branch();	// Calling set_branch() 
+	seatAB();
+	m = 0; n = 0;
 	
 	for(int rm = 0; rm<t_rooms; rm++)
 	{
@@ -119,29 +178,30 @@ void seat_planner :: seat_plan()	// Allocate seats
 		{
 			for(y=0; y<row; y++)	// For number of rows in a room
 			{
-				set_rollno();       // Call to set_rollno() function
+				seatAB();
+				//set_rollno();       // Call to set_rollno() function
 				if(y%2==0)
 				{
-					seat[rm][x][y] = start_roll1;	// seat allocation
-					start_roll1++;
+					seat[rm][x][y] = seatA[m];	//start_roll1;	// seat allocation
+					m++;	//start_roll1++;
 				}
 				else
 				{
-					seat[rm][x][y] = start_roll2;
-					start_roll2++;
+					seat[rm][x][y] = seatB[n];	//start_roll2;
+					n++;	//start_roll2++;
 				}
 			}
 			
 		}
 	}
-	if(start_roll1 < end_roll1)        
+	/*if(start_roll1 < end_roll1)        
 	{
 		fill_space(start_roll1,  end_roll1);
 	}
 	if(start_roll2 < end_roll2)
 	{
 		fill_space(start_roll2,  end_roll2);	
-	}	
+	}*/	
 }
 
 void seat_planner :: output()	// To display seat plan
@@ -149,24 +209,24 @@ void seat_planner :: output()	// To display seat plan
 
 	outfile.open("seatplan.out");//, ios::app);
 		
-	/*for(int a=0;a<t_rooms;a++)
+	for(int a=0;a<t_rooms;a++)
 	{
-	
-	sum=0;
-	count_rollno();
-	exam_display();
-	outfile<<"\n\n\t\t Room No: "<<room_no[a]<<"\n\n";
-	for(x=0; x<rows[a]; x++)
-	{										
+		sum=0;
+		//count_rollno();
+		//exam_display();
+		outfile<<"\n\n\t\t Room No: "<<room_no[a]<<"\n\n";
+		for(x=0; x<rows[a]; x++)
+		{										
 			for(y=0; y<cols[a]; y++)
 			{
-				outfile<<branch(seat[a][y][x])<<"-"<<seat[a][y][x]
-				<<"\t";
+				outfile<<branch(seat[a][y][x])<<seat[a][y][x]<<"\t";
+				//outfile<<seat[a][y][x]<<"\t";
 			}
 			outfile<<"\n";
+		}
 	}
 	outfile<<"\n";
-	for(int i=0; i<total_branches; i++)
+	/*for(int i=0; i<total_branches; i++)
 	{
 		if(count[i] != 0)
 		{
@@ -176,14 +236,13 @@ void seat_planner :: output()	// To display seat plan
 	outfile<<"Total:\t"<<sum;
 	}
 	*/
-	cout<<"Enter name:";getline(cin, exam_name, '\n');
-	//cin.getline(exam_name,'\n');
-	for(i=0; i<total_branches; i++)
+	//cout<<"Enter name:";getline(cin, exam_name, '\n');
+	/*for(i=0; i<total_branches; i++)
 	{
 		for(j=0; j<total_rno[i]; j++)
 			outfile<<rollno[i][j]<<"\t";
 		outfile<<exam_name<<endl;
-	}
+	}*/
 	outfile.close();	
 }
 
@@ -236,14 +295,19 @@ void seat_planner :: valid()
 string seat_planner :: branch(int rno)
 {
 	string brnch;
-	for(int i=0; i<total_branches; i++)
+	for(i=0; i<total_branches; i++)
 	{
-		if(rno>=start_roll[i] && rno<=end_roll[i])
+		for(j=0; j<total_rno[i]; j++)
 		{
-			brnch = branches[i];
-			count[i] = count[i] + 1;
-			sum += 1;
-			break;
+			if(rno==rollno[i][j])//start_roll[i] && rno<=end_roll[i])
+			{
+				brnch = branches[i];
+				brnch.append("-");
+				count[i] = count[i] + 1;
+				sum += 1;
+				break;
+			}
+			
 		}
 	}
 	return brnch;

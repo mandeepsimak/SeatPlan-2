@@ -41,14 +41,15 @@ class seat_planner : public details
 protected:
 
 	int seat[min_size][min_size][min_size];	// For storing seat plan
-	int start, end, start_roll1, start_roll2, end_roll1, end_roll2;
-	int x, y, col, row, count[min_size], choice, sum;
+	int	start, end, start_roll1, start_roll2, end_roll1, end_roll2,
+		x, y, col, row, count[min_size], choice, sum,
+		seatA[max_size], seatB[max_size], totalA, totalB, m, n;
 
 	// For next branch and next room
-	static int nxt_branch, nxt_room; 
+	static int nxt_branch, nxt_room;//, m, n; 
 	
-	// For test deatils 
-	string room, exam_date, exam_time, exam_name; 
+	// For exam deatils 
+	string exam_room, exam_date, exam_time, exam_name; 
 	
 public:
 
@@ -66,6 +67,7 @@ public:
 	void report_choice();
 	// To set remaining seats on empty places
 	void fill_space(int start_roll, int end_roll); 
+	void seatAB();
 
 };
 
