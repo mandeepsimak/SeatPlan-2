@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
-#include <string.h>
+#include <string>
 #include "files.h"
 
 using namespace std;
@@ -48,8 +48,7 @@ protected:
 	static int nxt_branch, nxt_room; 
 	
 	// For test deatils 
-	string room, exam_date, start_time, end_time, test_name; 
-	//char test_name[min_size];
+	string room, exam_date, exam_time, exam_name; 
 	
 public:
 

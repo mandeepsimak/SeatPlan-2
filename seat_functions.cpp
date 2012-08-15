@@ -1,7 +1,4 @@
-//#include <iostream>
-//#include "files.h"
 #include "seat_classes.h"
-//#include <string.h>
 
 // Reading room deatils from I/P file
 void details :: room_details()
@@ -33,20 +30,20 @@ int seat_planner :: nxt_room;
 // Exam Details
 void seat_planner::exam_details()
 {
-	cout<<"\n1. Enter the Name of the Test: ";
-	cin>>test_name;	//getline(cin, test_name);
-	cout<<"\n2. Enter Date of the Test (eg 13-03-1990): ";
-	cin>>exam_date;
+	cout<<"\n1. Enter the Name of the exam: ";
+	getline(cin, exam_name, '\n');//cin>>exam_name;
+	cout<<"\n2. Enter Date of the exam (eg 13-03-1990): ";
+	getline(cin, exam_name, '\n');
 	cout<<"\n3. Timing (eg 12:00pm  2:00pm): "; 
-	cin>>start_time>>end_time;
+	getline(cin, exam_time, '\n');
 }
 
 // To display exam deatils
 void seat_planner::exam_display()
 {
 	//outfile.open("seatplan.out");//, ios::app);
-	outfile<<"\n\n\t\t\t"<<test_name<<"  Test\n\n\tDate:		"
-		<<exam_date<<"\n\tTimings:	"<<start_time<<"  to  "<<end_time;
+	outfile<<"\n\n\t\t\t"<<exam_name<<"  Exam\n\n\tDate:		"
+		<<exam_date<<"\n\tTimings:	"<<exam_time;//<<"  to  "<<end_time;
 }
 
 void seat_planner :: get_details()
@@ -179,11 +176,13 @@ void seat_planner :: output()	// To display seat plan
 	outfile<<"Total:\t"<<sum;
 	}
 	*/
+	cout<<"Enter name:";getline(cin, exam_name, '\n');
+	//cin.getline(exam_name,'\n');
 	for(i=0; i<total_branches; i++)
 	{
 		for(j=0; j<total_rno[i]; j++)
 			outfile<<rollno[i][j]<<"\t";
-		outfile<<endl;
+		outfile<<exam_name<<endl;
 	}
 	outfile.close();	
 }
