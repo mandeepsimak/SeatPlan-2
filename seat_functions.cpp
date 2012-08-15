@@ -206,13 +206,13 @@ void seat_planner :: seat_plan()	// Allocate seats
 
 void seat_planner :: output()	// To display seat plan
 {
-
+	
 	outfile.open("seatplan.out");//, ios::app);
 		
 	for(int a=0;a<t_rooms;a++)
 	{
 		sum=0;
-		//count_rollno();
+		count_rollno();
 		//exam_display();
 		outfile<<"\n\n\t\t Room No: "<<room_no[a]<<"\n\n";
 		for(x=0; x<rows[a]; x++)
@@ -220,29 +220,23 @@ void seat_planner :: output()	// To display seat plan
 			for(y=0; y<cols[a]; y++)
 			{
 				outfile<<branch(seat[a][y][x])<<seat[a][y][x]<<"\t";
-				//outfile<<seat[a][y][x]<<"\t";
 			}
 			outfile<<"\n";
 		}
-	}
-	outfile<<"\n";
-	/*for(int i=0; i<total_branches; i++)
-	{
-		if(count[i] != 0)
+	
+		outfile<<"\n";
+		for(i=0; i<total_branches; i++)
 		{
-			outfile<<branches[i]<<":\t"<<count[i]<<endl;
+			if(count[i] != 0)
+			{
+				outfile<<branches[i]<<":\t"<<count[i];
+			}
+			if(start_rno[i] != 37657 && end_rno[i] !=0)
+				outfile<<"\tStart: "<<start_rno[i]<<"\t End: "<<end_rno[i]<<endl;
 		}
+		outfile<<"Total:\t"<<sum;
 	}
-	outfile<<"Total:\t"<<sum;
-	}
-	*/
-	//cout<<"Enter name:";getline(cin, exam_name, '\n');
-	/*for(i=0; i<total_branches; i++)
-	{
-		for(j=0; j<total_rno[i]; j++)
-			outfile<<rollno[i][j]<<"\t";
-		outfile<<exam_name<<endl;
-	}*/
+	
 	outfile.close();	
 }
 
@@ -303,8 +297,12 @@ string seat_planner :: branch(int rno)
 			{
 				brnch = branches[i];
 				brnch.append("-");
-				count[i] = count[i] + 1;
+				count[i]++;// = count[i] + 1;
 				sum += 1;
+				if(rno < start_rno[i])
+					start_rno[i] = rno;
+				if(rno > end_rno[i])
+					end_rno[i] = rno;
 				break;
 			}
 			
@@ -319,6 +317,8 @@ void seat_planner::count_rollno()
 	for(x=0;x<total_branches;x++)
 	{
 		count[x]=0;
+		start_rno[x] = 37657;
+		end_rno[x] = 0;
 	}
 }
 

@@ -43,7 +43,8 @@ protected:
 	int seat[min_size][min_size][min_size];	// For storing seat plan
 	int	start, end, start_roll1, start_roll2, end_roll1, end_roll2,
 		x, y, col, row, count[min_size], choice, sum,
-		seatA[max_size], seatB[max_size], totalA, totalB, m, n;
+		seatA[max_size], seatB[max_size], totalA, totalB, m, n,
+		start_rno[min_size], end_rno[min_size];
 
 	// For next branch and next room
 	static int nxt_branch, nxt_room;//, m, n; 
