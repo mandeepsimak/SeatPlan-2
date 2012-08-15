@@ -19,7 +19,6 @@ protected:
 
 	// Roll Number variables
 	int total_branches, rollno[min_size][max_size], total_rno[min_size];
-	int start_roll[min_size], end_roll[min_size];
 	string branches[min_size];
 
 	// fstream variable
@@ -41,8 +40,7 @@ class seat_planner : public details
 protected:
 
 	int seat[min_size][min_size][min_size];	// For storing seat plan
-	int	start, end, start_roll1, start_roll2, end_roll1, end_roll2,
-		x, y, col, row, count[min_size], choice, sum,
+	int	x, y, col, row, count[min_size], choice, sum,
 		seatA[max_size], seatB[max_size], totalA, totalB, m, n,
 		start_rno[min_size], end_rno[min_size];
 
@@ -55,10 +53,8 @@ protected:
 public:
 
 	void get_details();	// Getting deatils
-	void set_branch();	// To set new branch after old one has finished.
 	void set_room();	// To set new room
 	void seat_plan();	// to fix the seat allocation	
-	void set_rollno();	// Setting roll numbers according to branches.
 	void output();	// To display the seat allocation
 	void valid();	// Validations for strategy
 	string branch(int rno);	// Return branch name

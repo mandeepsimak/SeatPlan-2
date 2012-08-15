@@ -31,9 +31,9 @@ int seat_planner :: nxt_room;
 void seat_planner::exam_details()
 {
 	cout<<"\n1. Enter the Name of the exam: ";
-	getline(cin, exam_name, '\n');//cin>>exam_name;
-	cout<<"\n2. Enter Date of the exam (eg 13-03-1990): ";
 	getline(cin, exam_name, '\n');
+	cout<<"\n2. Enter Date of the exam (eg 13-03-1990): ";
+	getline(cin, exam_date, '\n');
 	cout<<"\n3. Timing (eg 12:00pm  2:00pm): "; 
 	getline(cin, exam_time, '\n');
 }
@@ -63,50 +63,7 @@ void seat_planner :: set_room()	// Setting room deatils
 		nxt_room++;	// Next room
 	}
 }
-/*
-void seat_planner :: set_branch()	// set_branch of seat_planner
-{
-	if(nxt_branch==0)	// Sets start and end roll nos of two branches.
-	{
-		start_roll1 = start_roll[nxt_branch];
-		end_roll1 = end_roll[nxt_branch];
-		nxt_branch++;
-		start_roll2 = start_roll[nxt_branch];
-		end_roll2 = end_roll[nxt_branch];
-		nxt_branch++;
 
-	}
-	else if(nxt_branch<total_branches)		
-	{										
-		start = start_roll[nxt_branch];	// Start roll no
-		end = end_roll[nxt_branch];	// End roll no
-		nxt_branch++;	// Increment branch
-	}
-	else
-	{	// When branches are finished
-		start = 0;
-		end = 0;
-	}
-}
-
-void seat_planner :: set_rollno()   
-{		
-	if(start_roll1>end_roll1)     
-	{	// To set start and end roll no. of first branch
-		set_branch();
-		start_roll1 = start;
-		end_roll1 = end;
-	}
-
-	if(start_roll2>end_roll2)
-	{	// To set start and end roll no. of second branch.
-		set_branch();
-		start_roll2 = start;
-		end_roll2 = end;
-	}
-
-}
-*/
 void seat_planner :: seatAB()
 {
 	if(nxt_branch == 0)
@@ -213,7 +170,7 @@ void seat_planner :: output()	// To display seat plan
 	{
 		sum=0;
 		count_rollno();
-		//exam_display();
+		exam_display();
 		outfile<<"\n\n\t\t Room No: "<<room_no[a]<<"\n\n";
 		for(x=0; x<rows[a]; x++)
 		{										
@@ -247,7 +204,7 @@ void seat_planner :: valid()
 
 	for(x=0; x<total_branches; x++)
 	{
-		students += (end_roll[x]-start_roll[x])+1;
+		students += total_rno[x];
 	}
 	for(x=0; x<t_rooms; x++)
 	{
