@@ -44,7 +44,7 @@ void seat_planner::exam_details()
 void seat_planner::exam_display()
 {
 	//outfile.open("seatplan.out");//, ios::app);
-	outfile<<"\n\n\t\t\t"<<exam_name<<"  Exam\n\n\tDate:		"
+	outfile<<"\n\n\t\t\t"<<exam_name<<"\n\n\t\tDate:		"
 		<<exam_date<<"\n\tTimings:	"<<exam_time;//<<"  to  "<<end_time;
 }
 
@@ -202,6 +202,7 @@ void seat_planner :: output()	// To display seat plan
 void seat_planner :: valid()
 {
 	int students=0, seats=0;
+	max_rno = 0;
 	char choice;
 
 	for(x=0; x<total_branches; x++)
@@ -225,21 +226,36 @@ void seat_planner :: valid()
 	else if(seats > students || seats == students)
 	{
 		system("clear");
-		cout<<"\nStrategy applicable. Press 'Y' to continue."<<endl;
-		cin>>choice;
-	
-		switch(choice)
+		cout<<"\n Strategy - 1"
+			<<endl<<"Total Seats: "<<seats<<endl
+			<<"Total students: "<<students<<endl;
+		int d = max_rno / 18;
+		int r = max_rno % 18;
+		if(d > t_rooms)
 		{
-			case 'Y':
-				exam_details();
-				//report_choice();
-				seat_plan();	// Call to seat_plan() function
-				cout<<"\n Check seatplan.out file for seat plan."<<endl;
-				break;
+			cout<<"This Strategy is not appicaple."<<endl
+				<<"Rooms required for max. class rollno: "<<d<<endl
+				<<"Add more rooms in input file to complete this stretegy"
+				<<endl;
+		}
+		else
+		{
+			cout<<"\nStrategy applicable. Press 'Y' to continue."<<endl;
+			cin>>choice;
 		
-			default:
-				cout<<"\nWrong Choice"<<endl;
-				break;
+			switch(choice)
+			{
+				case 'Y':
+					exam_details();
+					//report_choice();
+					seat_plan();	// Call to seat_plan() function
+					cout<<"\n Check seatplan.out file for seat plan."<<endl;
+					break;
+			
+				default:
+					cout<<"\nWrong Choice"<<endl;
+					break;
+			}
 		}
 
 	}
@@ -278,6 +294,8 @@ void seat_planner::count_rollno()
 		count[x]=0;
 		start_rno[x] = 37657;
 		end_rno[x] = 0;
+		if(total_rno[x]>max_rno)
+			max_rno = total_rno[x];
 	}
 }
 
