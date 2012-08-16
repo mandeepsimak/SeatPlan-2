@@ -30,9 +30,11 @@ int seat_planner :: nxt_room;
 // Exam Details
 void seat_planner::exam_details()
 {
+	//cout<<"\n1. Enter the Name of the exam: ";
+	getline(cin, exam_name, '\n');
 	cout<<"\n1. Enter the Name of the exam: ";
 	getline(cin, exam_name, '\n');
-	cout<<"\n2. Enter Date of the exam (eg 13-03-1990): ";
+	cout<<"\n2. Enter Date of the exam (eg 13-03-2012): ";
 	getline(cin, exam_date, '\n');
 	cout<<"\n3. Timing (eg 12:00pm  2:00pm): "; 
 	getline(cin, exam_time, '\n');
